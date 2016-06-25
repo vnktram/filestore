@@ -70,7 +70,7 @@ require_once('rest_init.php');
 		{
 			$ext = pathinfo($source_url,PATHINFO_EXTENSION);
 			$target_file = $dir.uniqid().".".$ext;
-			file_put_contents($target_file, fopen($source_url,'r'));//$this->compress_image($key, $target_file, 60);
+			file_put_contents($target_file, fopen($source_url,'r'));
 			$saved_file = $this->compress_image($target_file, $target_file, 60);
 			$result = array('status' => 'Success','source_url' => $source_url, 'url' => $_SERVER['SERVER_NAME']."/".$saved_file, 'compressedsize' => filesize($saved_file));
 			return $result;
@@ -81,31 +81,30 @@ require_once('rest_init.php');
 			if($this->get_request_method() != "POST"){
 				$this->response('',406);
 			}
-			//echo "<div>comes here</div>";
+
 			$body = $_FILES;
-			$url = $this->_request["url"];
+			$url = $this->_request["URL"];
 			// Input validations
 			if(!empty($body["csv"])){
 				$dir = $this->init_dir();
 
-				if (basename($_FILES["csv"]["name"])) {
-					$csv = array_map('str_getcsv', file($_FILES["csv"]["tmp_name"]));
+				if (basename($_FILES["CSV"]["name"])) {
+					$csv = array_map('str_getcsv', file($_FILES["CSV"]["tmp_name"]));
 				}
 				$response = array();
 				foreach ($csv[0] as $key) {
 					$result = $this->fetch_image_from_url($key, $dir);
-					//$sub_json = $this->json($result);
+
 					array_push($response, $result);
 				}
 				$this->response($this->json($response),200);
 
-					//$this->response('', 204);	// If no records "No Content" status
-			} elseif (!empty($body["image"])) {
-				echo "img";
+
+			} elseif (!empty($body["IMAGE"])) {
 				$dir = $this->init_dir();
-				$target_file = $dir .uniqid()."_".basename($_FILES["image"]["name"]);
+				$target_file = $dir .uniqid()."_".basename($_FILES["IMAGE"]["name"]);
 				
-				$tmp_file = $_FILES["image"];
+				$tmp_file = $_FILES["IMAGE"];
 
 				$is_upload_ok = $this->validate_image($tmp_file);
 
@@ -115,8 +114,6 @@ require_once('rest_init.php');
 					$this->response($this->json($result),200);
 				}
 			} elseif (!empty($url)) {
-				print_r($url);
-				echo "url";
 				$dir = $this->init_dir();
 				$result = $this->fetch_image_from_url($url, $dir);
 				$this->response($this->json($result),200);
