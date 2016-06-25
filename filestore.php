@@ -49,14 +49,11 @@ require_once('rest_init.php');
 		    $check = getimagesize($tmp_file["tmp_name"]);
 		    if($check !== false) {
 		        $uploadOk = 1;
-		    } else {
-
-		        $uploadOk = 0;
 		    }
-			if ($tmp_file["size"] > 50000000) {
-				$uploadOk = 0;
-			}
-			return $uploadOk;
+		    if ($tmp_file["size"] > 50000000) {
+			$uploadOk = 0;
+		    }
+		    return $uploadOk;
 		}
 
 		public function fetch_image_from_url($source_url, $dir)
