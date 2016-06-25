@@ -98,11 +98,7 @@ require_once('rest_init.php');
 					array_push($response, $result);
 				}
 				$this->response($this->json($response),200);
-				//print_r($response);
-				// $filename = $target_dir.uniqid().".jpg";
-				// $file = file_put_contents($filename, fopen("http://www.naturewallpaper.eu/desktopwallpapers/tree/1360x768/bark-with-moss-1360x768.jpg", 'r'));
-				// echo "<img src='".$filename."'></img>";
-					//$this->response('comes here', 200);
+
 					//$this->response('', 204);	// If no records "No Content" status
 			} elseif (!empty($body["image"])) {
 				echo "img";
