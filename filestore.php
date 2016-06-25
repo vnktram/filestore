@@ -10,18 +10,13 @@ require_once('rest_init.php');
 		}
 		
 	
-		/*
-		 * Public method for access api.
-		 * This method dynmically call the method based on the query string
-		 *
-		 */
 		public function processApi(){
 			
 			$func = strtolower(trim(str_replace("/","",$_REQUEST['request'])));
 			if((int)method_exists($this,$func) > 0)
 				$this->$func();
 			else
-				$this->response('',404);				// If the method not exist with in this class, response would be "Page not found".
+				$this->response('',404);
 		}
 		
 		public function compress_image($source_url, $destination_url, $quality) {
@@ -53,14 +48,12 @@ require_once('rest_init.php');
 		    $uploadOk = 0;
 		    $check = getimagesize($tmp_file["tmp_name"]);
 		    if($check !== false) {
-		        //echo "File is an image - " . $check["mime"] . ".";
 		        $uploadOk = 1;
 		    } else {
-		        $error = "File is not an image.";
+
 		        $uploadOk = 0;
 		    }
 			if ($tmp_file["size"] > 50000000) {
-				$error = "Sorry, your file is too large.";
 				$uploadOk = 0;
 			}
 			return $uploadOk;
@@ -77,7 +70,7 @@ require_once('rest_init.php');
 		}
 		
 		private function push(){
-			// Cross validation if the request method is POST else it will return "Not Acceptable" status
+
 			if($this->get_request_method() != "POST"){
 				$this->response('',406);
 			}
@@ -85,7 +78,7 @@ require_once('rest_init.php');
 			$body = $_FILES;
 			$url = $this->_request["URL"];
 			// Input validations
-			if(!empty($body["csv"])){
+			if(!empty($body["CSV"])){
 				$dir = $this->init_dir();
 
 				if (basename($_FILES["CSV"]["name"])) {
@@ -101,6 +94,7 @@ require_once('rest_init.php');
 
 
 			} elseif (!empty($body["IMAGE"])) {
+
 				$dir = $this->init_dir();
 				$target_file = $dir .uniqid()."_".basename($_FILES["IMAGE"]["name"]);
 				
@@ -117,11 +111,7 @@ require_once('rest_init.php');
 				$dir = $this->init_dir();
 				$result = $this->fetch_image_from_url($url, $dir);
 				$this->response($this->json($result),200);
-			}
-			
-			// If invalid inputs "Bad Request" status message and reason
-			//$error = array('status' => "Failed", "msg" => "Invalid Email address or Password");
-			//$this->response($this->json($error), 400);
+			}		
 		}
 		
 
@@ -136,7 +126,7 @@ require_once('rest_init.php');
 		}
 	}
 	
-	// Initiiate Library
+	// Initiate Library
 	
 	$api = new API;
 	$api->processApi();
